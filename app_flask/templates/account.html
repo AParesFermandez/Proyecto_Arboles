@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ES">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arboltrario - Seguir Árboles Plantados al Azar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/styles.css') }}">
+</head>
+
+<body>
+    <main class="container">
+        <div class="row">
+            <h1 class="col-6">Arboltraria</h1>
+            <h3 class="col-6">Bienvenid@ de vuelta {{ session['nombre'] }} {{ session['apellido'] }}</h3>
+        </div>
+        <div class="row">
+            <p class="col-8"> Un sitio para seguir arboles plantados al azar </p>
+            <form class="col-2" action="/dashboard" method="GET">
+                <button class="btn btn-primary">dashboard</button>
+            </form>
+            <form class="col-2" action="/procesa/logout" method="POST">
+                <button class="btn btn-secondary">Logout</button>
+            </form>
+        </div>
+        <div class="arboles-usuario">
+            <h2>Gestionar mis árboles</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Especie</th>
+                        <th>Fecha de Plantación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for arbol in arboles_del_usuario %}
+                    <tr>
+                        <td>{{ arbol.especie }}</td>
+                        <td>{{ arbol.fecha_plantacion }}</td>
+                        <td>
+                            <a href="/editar/{{ arbol.id }}" class="btn btn-primary">Editar</a>
+                            <form method="POST" action="/eliminar/arboles/{{ arbol.id }}">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>                                                       
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+</body>
+
+</html>

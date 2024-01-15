@@ -1,0 +1,10 @@
+.navrow{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+.table1 {
+    border: 3px solid black; 
+    border-collapse: collapse;
+    width: 100%;
+}

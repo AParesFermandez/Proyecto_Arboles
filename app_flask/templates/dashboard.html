@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ES">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/styles.css') }}">
+</head>
+<body>
+    <main class="container">
+        <div class="row">
+            <h1 class="col-4">Arboltraria</h1>
+            <a class="col-2" href="/user/account">Mis Arboles</a>
+            <h3 class="col-6">Bienvenid@ de vuelta {{ session['nombre'] }} {{ session['apellido'] }}</h3>
+        </div>
+        <div class="row">
+            <p class="col-4"> Un sitio para seguir arboles plantados al azar </p>
+            <form  class="col-2" action="/editar/usuario">
+                <button class="btn btn-primary"> Editar Usuario </button>
+            </form>
+            <form class="col-2" action="/new" method="GET">
+                <button class="btn btn-primary"> Plantar Arbol</button>
+            </form>
+            <form class="col-2" action="/procesa/logout" method="POST">
+                <button class="btn btn-secondary">Logout</button>
+            </form>
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Especie</th>
+                            <th>Creado por</th>
+                            <th>Visitantes</th>
+                            <th>Detalles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for arbol in lista_arboles %}
+                        <tr>
+                            <td>{{ arbol.especie }}</td>
+                            <td>
+                                {% if arbol.nombre_creador %}
+                                    {{ arbol.nombre_creador }}
+                                {% else %}
+                                    Usuario Desconocido
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if arbol.numero_visitantes %}
+                                    {{ arbol.numero_visitantes }}
+                                {% else %}
+                                    0 
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="/show/{{ arbol.id }}">Ver detalles</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>                    
+                </table>
+            </div>
+        </div>         
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

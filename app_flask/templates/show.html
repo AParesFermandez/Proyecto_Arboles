@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ES">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Árbol</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='/css/styles.css')}}">
+</head>
+
+<body>
+    <main class="container">
+        <div class="row">
+            <h1 class="col-4">Arboltraria</h1>
+            <a class="col-2" href="/user/account">Mis Arboles</a>
+            <h3 class="col-6">Bienvenid@ de vuelta {{ session['nombre'] }} {{ session['apellido'] }}</h3>
+        </div>
+        <div class="row">
+            <p class="col-8"> Un sitio para seguir arboles plantados al azar </p>
+            <form class="col-2" action="/dashboard" method="GET">
+                <button class="btn btn-primary">dashboard</button>
+            </form>
+            <form class="col-2" action="/procesa/logout" method="POST">
+                <button class="btn btn-secondary">Logout</button>
+            </form>
+        </div>
+        <main class="container">
+            <div class="row">
+                <h2 class="col-6">Detalles del Árbol</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    {% if arbol %}
+                        <h3>{{ arbol.especie }}</h3>
+                        <p>Plantado por: {{ arbol.nombre_creador }}</p>
+                        <p>Ubicación: {{ arbol.ubicacion }}</p>
+                        <p>Fecha de Plantación: {{ arbol.fecha_plantacion }}</p>
+                        <p>Razón: {{ arbol.razon }}</p>
+                    {% else %}
+                        <p>El árbol no fue encontrado.</p>
+                    {% endif %}
+                </div>
+
+                <div class="col-6">
+                    <div class="visit-box">
+                        <h3>Visitado por</h3>
+                        {% if visitantes %}
+                            <ul>
+                                {% for visitante in visitantes %}
+                                    <li>{{ visitante.nombre }} {{ visitante.apellido }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No hay visitantes aún.</p>
+                        {% endif %}
+                        {% if not visitado and not ya_visitado %}
+                            <p><a href="/visitar/{{ arbol.id }}">¿Me has visitado?</a></p>
+                        {% else %}
+                            <p>Ya has visitado este árbol.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
